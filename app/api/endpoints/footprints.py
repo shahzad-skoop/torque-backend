@@ -3,7 +3,7 @@ from __future__ import annotations
 from fastapi import APIRouter, Depends, Query
 from sqlalchemy.orm import Session
 
-from app.db.models import RegionAlias
+from app.db.models import Region, RegionAlias
 from app.db.session import get_db
 from app.schemas.footprint import (
     FacilityResponse,
@@ -41,6 +41,14 @@ def get_regions(db: Session = Depends(get_db)):
 @router.get("/regions/resolve", response_model=RegionAliasResolutionResponse)
 def resolve_region_alias(alias: str = Query(...), db: Session = Depends(get_db)):
     normalized = normalize_region_key(alias)
+    region = db.query(Region).filter(Region.id == normalized).first()
+    if region:
+        return RegionAliasResolutionResponse(
+            alias=alias,
+            canonical_region_id=region.id,
+            canonical_region_name=region.display_name,
+        )
+
     alias_row = db.query(RegionAlias).filter(RegionAlias.alias == normalized).first()
     if not alias_row:
         return RegionAliasResolutionResponse(alias=alias, canonical_region_id=None, canonical_region_name=None)

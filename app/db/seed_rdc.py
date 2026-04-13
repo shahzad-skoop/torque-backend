@@ -36,7 +36,65 @@ def _upsert_region(db: Session, payload: dict, svg_view_box: str | None) -> Regi
     return region
 
 
+def _sync_region_states(db: Session, *, region_id: str, states: list[str]) -> None:
+    target_states = {state.upper() for state in states}
+    existing_rows = db.query(RegionState).filter(RegionState.region_id == region_id).all()
+    existing_states = {row.state_code for row in existing_rows}
+
+    for row in existing_rows:
+        if row.state_code not in target_states:
+            db.delete(row)
+
+    for state_code in sorted(target_states - existing_states):
+        db.add(RegionState(region_id=region_id, state_code=state_code))
+
+
+def _sync_ticker_key_markets(db: Session, *, ticker_symbol: str, key_markets: list[str]) -> None:
+    target = {market.strip() for market in key_markets if market.strip()}
+    existing_rows = db.query(TickerKeyMarket).filter(TickerKeyMarket.ticker_symbol == ticker_symbol).all()
+    existing = {row.market_name for row in existing_rows}
+
+    for row in existing_rows:
+        if row.market_name not in target:
+            db.delete(row)
+
+    for market_name in sorted(target - existing):
+        db.add(TickerKeyMarket(ticker_symbol=ticker_symbol, market_name=market_name))
+
+
+def _sync_ticker_facility_types(db: Session, *, ticker_symbol: str, facility_types: list[str]) -> None:
+    target = {facility_type.strip() for facility_type in facility_types if facility_type.strip()}
+    existing_rows = db.query(TickerFacilityType).filter(TickerFacilityType.ticker_symbol == ticker_symbol).all()
+    existing = {row.facility_type for row in existing_rows}
+
+    for row in existing_rows:
+        if row.facility_type not in target:
+            db.delete(row)
+
+    for facility_type in sorted(target - existing):
+        db.add(TickerFacilityType(ticker_symbol=ticker_symbol, facility_type=facility_type))
+
+
+def _sync_ticker_regions(db: Session, *, ticker_symbol: str, raw_regions: list[str]) -> None:
+    resolved_region_ids = {resolve_region_id(db, raw_region) for raw_region in raw_regions}
+    target = {region_id for region_id in resolved_region_ids if region_id}
+    existing_rows = db.query(TickerRegion).filter(TickerRegion.ticker_symbol == ticker_symbol).all()
+    existing = {row.region_id for row in existing_rows}
+
+    for row in existing_rows:
+        if row.region_id not in target:
+            db.delete(row)
+
+    for region_id in sorted(target - existing):
+        db.add(TickerRegion(ticker_symbol=ticker_symbol, region_id=region_id))
+
+
 def seed_rdc_data(db: Session, *, source_path: Path = DEFAULT_RDC_JSON_PATH, external_source_name: str = "rdc_sample_json") -> None:
+    """Seed and normalize RDC sample data.
+
+    The function is intentionally idempotent and deterministic so local reseeding
+    keeps lookup and relationship tables synchronized with the bundled JSON.
+    """
     with source_path.open("r", encoding="utf-8") as file_obj:
         payload = json.load(file_obj)
 
@@ -45,16 +103,7 @@ def seed_rdc_data(db: Session, *, source_path: Path = DEFAULT_RDC_JSON_PATH, ext
     for region_payload in payload.get("regions", []):
         region = _upsert_region(db, region_payload, svg_view_box=svg_view_box)
         db.flush()
-
-        for state in region_payload.get("states", []):
-            state_code = state.upper()
-            exists = (
-                db.query(RegionState)
-                .filter(RegionState.region_id == region.id, RegionState.state_code == state_code)
-                .first()
-            )
-            if not exists:
-                db.add(RegionState(region_id=region.id, state_code=state_code))
+        _sync_region_states(db, region_id=region.id, states=region_payload.get("states", []))
 
     for alias_raw, canonical_raw in payload.get("regionAliases", {}).items():
         alias = normalize_region_key(alias_raw)
@@ -79,46 +128,15 @@ def seed_rdc_data(db: Session, *, source_path: Path = DEFAULT_RDC_JSON_PATH, ext
         db.add(ticker)
         db.flush()
 
-        for market in ticker_payload.get("keyMarkets", []):
-            existing_market = (
-                db.query(TickerKeyMarket)
-                .filter(TickerKeyMarket.ticker_symbol == symbol, TickerKeyMarket.market_name == market)
-                .first()
-            )
-            if not existing_market:
-                db.add(TickerKeyMarket(ticker_symbol=symbol, market_name=market))
-
-        for facility_type in ticker_payload.get("facilityTypes", []):
-            existing_type = (
-                db.query(TickerFacilityType)
-                .filter(
-                    TickerFacilityType.ticker_symbol == symbol,
-                    TickerFacilityType.facility_type == facility_type,
-                )
-                .first()
-            )
-            if not existing_type:
-                db.add(TickerFacilityType(ticker_symbol=symbol, facility_type=facility_type))
-
-        seen_ticker_regions: set[str] = set()
-        for raw_region in ticker_payload.get("regions", []):
-            region_id = resolve_region_id(db, raw_region)
-            if not region_id or region_id in seen_ticker_regions:
-                continue
-            seen_ticker_regions.add(region_id)
-            existing_ticker_region = (
-                db.query(TickerRegion)
-                .filter(TickerRegion.ticker_symbol == symbol, TickerRegion.region_id == region_id)
-                .first()
-            )
-            if not existing_ticker_region:
-                db.add(TickerRegion(ticker_symbol=symbol, region_id=region_id))
+        _sync_ticker_key_markets(db, ticker_symbol=symbol, key_markets=ticker_payload.get("keyMarkets", []))
+        _sync_ticker_facility_types(db, ticker_symbol=symbol, facility_types=ticker_payload.get("facilityTypes", []))
+        _sync_ticker_regions(db, ticker_symbol=symbol, raw_regions=ticker_payload.get("regions", []))
 
         for facility_payload in ticker_payload.get("distributionCenters", []):
             raw_region = facility_payload.get("region")
             normalized_region_id = resolve_region_id(db, raw_region)
-            state = facility_payload.get("state")
-            facility_type = facility_payload.get("type", "distribution")
+            state = facility_payload.get("state", "").upper() or None
+            facility_type = facility_payload.get("type", "distribution").strip().lower()
             facility_name = facility_payload["name"]
 
             facility = (
@@ -144,7 +162,8 @@ def seed_rdc_data(db: Session, *, source_path: Path = DEFAULT_RDC_JSON_PATH, ext
             facility.country = "US"
             facility.geometry_status = "not_available"
             facility.external_source_name = external_source_name
-            facility.external_facility_id = f"{symbol}:{normalize_region_key(facility_name)}"
+            external_key = f"{symbol}:{normalize_region_key(facility_name)}:{state or 'na'}:{facility_type}"
+            facility.external_facility_id = external_key
             facility.source_payload_json = facility_payload
             if facility.first_seen_at is None:
                 facility.first_seen_at = datetime.now(timezone.utc)

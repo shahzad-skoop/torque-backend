@@ -46,7 +46,7 @@ def list_ticker_facilities(
 ) -> list[Facility]:
     query = db.query(Facility).filter(Facility.ticker_symbol == ticker_symbol.upper())
     if region_id:
-        query = query.filter(Facility.region_id == region_id)
+        query = query.filter(Facility.region_id == normalize_region_key(region_id))
     if state:
         query = query.filter(Facility.state == state.upper())
     return query.order_by(Facility.name.asc()).all()

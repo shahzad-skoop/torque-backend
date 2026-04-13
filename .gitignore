@@ -26,6 +26,7 @@ env/
 .idea/
 *.swp
 *.swo
+.specstory/
 
 # OS
 .DS_Store
@@ -45,3 +46,7 @@ dist/
 
 # Docker
 docker-data/
+
+# Cursor/agent artifacts
+agent-tools/
+agent-transcripts/

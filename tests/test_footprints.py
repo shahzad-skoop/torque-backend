@@ -69,6 +69,11 @@ def test_list_facilities_for_ticker_with_filters(client):
     assert payload[0]["name"] == "Atlanta Southeast DC"
     assert payload[0]["region_id"] == "south"
 
+    region_response = client.get("/api/v1/footprints/tickers/WMT/facilities?region_id=Southeast")
+    assert region_response.status_code == 200
+    region_payload = region_response.json()
+    assert all(item["region_id"] == "south" for item in region_payload)
+
 
 def test_regions_endpoint(client):
     db = SessionLocal()
@@ -81,6 +86,24 @@ def test_regions_endpoint(client):
     assert response.status_code == 200
     payload = response.json()
     assert any(item["id"] == "northwest" for item in payload)
+
+
+def test_region_alias_resolve_endpoint(client):
+    db = SessionLocal()
+    try:
+        seed_rdc_data(db)
+    finally:
+        db.close()
+
+    alias_response = client.get("/api/v1/footprints/regions/resolve?alias=Gulf Coast")
+    assert alias_response.status_code == 200
+    alias_payload = alias_response.json()
+    assert alias_payload["canonical_region_id"] == "south"
+
+    canonical_response = client.get("/api/v1/footprints/regions/resolve?alias=South")
+    assert canonical_response.status_code == 200
+    canonical_payload = canonical_response.json()
+    assert canonical_payload["canonical_region_id"] == "south"
 
 
 def test_schema_contains_rdc_tables_and_columns():

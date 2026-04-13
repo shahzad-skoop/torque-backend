@@ -14,3 +14,7 @@ dist/
 build/
 *.egg-info/
 tests/
+.specstory/
+.vscode/
+agent-tools/
+agent-transcripts/

@@ -1,8 +1,8 @@
-# Torque Backend Starter
+# Torque Backend
 
-Production-oriented backend starter for the Torque intelligence platform.
+Production-minded FastAPI backend for the Torque intelligence platform.
 
-This repo gives you a **locally runnable backend skeleton** with:
+This repository includes a locally runnable backend application with:
 
 - FastAPI API server
 - PostgreSQL + PostGIS
@@ -24,7 +24,7 @@ This repo gives you a **locally runnable backend skeleton** with:
 - **Task runner**: Celery worker + Celery beat
 - **Tests/Lint**: pytest + Ruff
 
-## What is implemented
+## Implemented
 
 - Health endpoints
 - Auth proxy endpoints:
@@ -37,16 +37,9 @@ This repo gives you a **locally runnable backend skeleton** with:
   - `GET /api/v1/analysis/runs/{run_id}/events`
   - `GET /api/v1/analysis/runs/{run_id}/stream` (SSE)
 - Simulated Celery analysis pipeline for local end-to-end testing
-- Database models for:
-  - tickers
-  - facilities
-  - analysis_runs
-  - analysis_run_events
-  - analysis_reports
+- RDC/footprint domain model with seedable sample data
 
-## What is still scaffolding / TODO
-
-This repo is intentionally honest about what is **not** implemented yet:
+## Still scaffolded (intentional)
 
 - Real satellite provider integrations
 - Real auth token verification flow with your auth service
@@ -55,11 +48,9 @@ This repo is intentionally honest about what is **not** implemented yet:
 - Real MinIO artifact uploads
 - Advanced role-based authorization
 
-The analysis pipeline currently simulates steps so you can test the platform locally.
+The analysis pipeline remains simulated so the full backend flow can be tested locally.
 
----
-
-## Local run
+## Local development
 
 ### 1. Copy env
 
@@ -78,27 +69,19 @@ docker compose up --build
 - API docs: `http://localhost:8000/docs`
 - MinIO console: `http://localhost:9001`
 
-### 4. Optional: create initial DB tables manually if needed
-
-The API container runs:
+### 4. Run migrations manually (optional)
 
 ```bash
 alembic upgrade head
 ```
 
-on startup.
-
-### RDC schema migrations
-
-```bash
-alembic upgrade head
-```
-
-This applies the base schema plus the RDC/facility footprint migration.
+The local API container already runs migrations on startup; this is mainly useful for manual local runs.
 
 ### Seed RDC sample data
 
 ```bash
+make seed-rdc
+# or:
 python -m scripts.seed_rdc
 ```
 
@@ -124,7 +107,7 @@ That lets you test locally without depending on the external auth service.
 
 ---
 
-## API flow examples
+## API examples
 
 ### Mock login
 
@@ -186,11 +169,11 @@ The backend now includes normalized tables for region + facility footprint model
 - `ticker_facility_types`: supported facility/operational types per ticker.
 - `facilities` (extended): physical facilities with both raw region and canonical `region_id`, plus ingestion metadata fields (`external_source_name`, `external_facility_id`, payload, first/last seen, active status) and staged geometry fields (`latitude`, `longitude`, `geometry_wkt`, `polygon_geojson`, `geometry_status`, `polygon_source`).
 
-### Why geometry is staged this way
+### Geometry strategy
 
 This schema keeps geometry fields in JSON/text/lat-lng for immediate compatibility while preserving a clean migration path to full PostGIS geometry columns later. No production data model rewrite is required when richer geometry ingestion is turned on.
 
-### Minimal verification endpoints
+### Verification endpoints
 
 - `GET /api/v1/footprints/regions`
 - `GET /api/v1/footprints/regions/resolve?alias=Southeast`
@@ -207,6 +190,12 @@ curl http://localhost:8000/api/v1/footprints/tickers
 curl "http://localhost:8000/api/v1/footprints/regions/resolve?alias=Gulf%20Coast"
 curl "http://localhost:8000/api/v1/footprints/tickers/WMT/facilities?state=GA"
 ```
+
+## Out of scope in this repo stage
+
+- Production host/server deployment setup
+- Watchtower/GHCR/runtime orchestration changes
+- Cloudflare/routing/infrastructure automation
 
 ---
 
