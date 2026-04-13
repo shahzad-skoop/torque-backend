@@ -1,0 +1,1020 @@
+{
+  "description": "Hardcoded US region polygons (SVG paths) and distribution center / facility data for all seeded tickers. Use region_aliases to normalize variant region names to canonical IDs.",
+  "svgViewBox": "0 0 360 300",
+  "regions": [
+    {
+      "id": "northwest",
+      "name": "Northwest",
+      "states": [
+        "WA",
+        "OR",
+        "ID",
+        "MT",
+        "WY"
+      ],
+      "polygon": "M 30 20 L 120 20 L 120 80 L 80 100 L 30 100 Z",
+      "label": {
+        "x": 70,
+        "y": 60
+      }
+    },
+    {
+      "id": "west",
+      "name": "West",
+      "states": [
+        "CA",
+        "NV",
+        "AZ",
+        "UT",
+        "CO"
+      ],
+      "polygon": "M 30 100 L 80 100 L 120 80 L 120 180 L 30 220 Z",
+      "label": {
+        "x": 65,
+        "y": 150
+      }
+    },
+    {
+      "id": "midwest",
+      "name": "Midwest",
+      "states": [
+        "ND",
+        "SD",
+        "NE",
+        "KS",
+        "MN",
+        "IA",
+        "MO",
+        "WI",
+        "IL",
+        "MI",
+        "IN",
+        "OH"
+      ],
+      "polygon": "M 120 20 L 220 30 L 240 100 L 220 160 L 120 140 L 120 80 Z",
+      "label": {
+        "x": 170,
+        "y": 90
+      }
+    },
+    {
+      "id": "central",
+      "name": "Central",
+      "states": [
+        "TX",
+        "OK"
+      ],
+      "polygon": "M 120 140 L 220 160 L 200 240 L 100 260 L 80 200 L 120 180 Z",
+      "label": {
+        "x": 150,
+        "y": 200
+      }
+    },
+    {
+      "id": "northeast",
+      "name": "Northeast",
+      "states": [
+        "NY",
+        "NJ",
+        "PA",
+        "MA",
+        "CT",
+        "VT",
+        "NH",
+        "ME",
+        "RI",
+        "MD",
+        "DE",
+        "DC",
+        "VA",
+        "WV"
+      ],
+      "polygon": "M 220 30 L 300 20 L 320 80 L 300 140 L 240 130 L 240 100 Z",
+      "label": {
+        "x": 270,
+        "y": 80
+      }
+    },
+    {
+      "id": "south",
+      "name": "South",
+      "states": [
+        "FL",
+        "GA",
+        "SC",
+        "NC",
+        "TN",
+        "AL",
+        "MS",
+        "LA",
+        "AR",
+        "KY"
+      ],
+      "polygon": "M 200 140 L 300 140 L 340 200 L 320 280 L 200 260 L 200 240 Z",
+      "label": {
+        "x": 260,
+        "y": 200
+      }
+    }
+  ],
+  "regionAliases": {
+    "southeast": "south",
+    "southwest": "west",
+    "eastcoast": "northeast",
+    "westcoast": "west",
+    "gulfcoast": "south",
+    "pacific": "west",
+    "mountain": "northwest",
+    "plains": "midwest"
+  },
+  "tickerFootprints": {
+    "WMT": {
+      "symbol": "WMT",
+      "companyName": "Walmart Inc.",
+      "retailLocations": 4700,
+      "distributionCenters": [
+        {
+          "name": "Bentonville Super DC",
+          "region": "Central",
+          "state": "AR",
+          "type": "super"
+        },
+        {
+          "name": "Dallas Regional FC",
+          "region": "South",
+          "state": "TX",
+          "type": "fulfillment"
+        },
+        {
+          "name": "Chicago Midwest Hub",
+          "region": "Midwest",
+          "state": "IL",
+          "type": "regional"
+        },
+        {
+          "name": "Atlanta Southeast DC",
+          "region": "Southeast",
+          "state": "GA",
+          "type": "distribution"
+        },
+        {
+          "name": "Phoenix Southwest FC",
+          "region": "West",
+          "state": "AZ",
+          "type": "fulfillment"
+        },
+        {
+          "name": "New Jersey East Coast DC",
+          "region": "Northeast",
+          "state": "NJ",
+          "type": "distribution"
+        }
+      ],
+      "fulfillmentCenters": 210,
+      "regions": [
+        "Midwest",
+        "South",
+        "West",
+        "Northeast",
+        "Central",
+        "Southeast"
+      ],
+      "facilityTypes": [
+        "Supercenter",
+        "Neighborhood Market",
+        "Distribution Center",
+        "Fulfillment Center"
+      ],
+      "avgSquareFootage": 182000,
+      "keyMarkets": [
+        "Houston",
+        "Dallas",
+        "Phoenix",
+        "Los Angeles",
+        "Chicago"
+      ]
+    },
+    "TGT": {
+      "symbol": "TGT",
+      "companyName": "Target Corporation",
+      "retailLocations": 1950,
+      "distributionCenters": [
+        {
+          "name": "Minneapolis HQ DC",
+          "region": "Midwest",
+          "state": "MN",
+          "type": "super"
+        },
+        {
+          "name": "Dallas Regional DC",
+          "region": "South",
+          "state": "TX",
+          "type": "regional"
+        },
+        {
+          "name": "Los Angeles West Coast Hub",
+          "region": "West",
+          "state": "CA",
+          "type": "distribution"
+        },
+        {
+          "name": "Savannah Port DC",
+          "region": "Southeast",
+          "state": "GA",
+          "type": "distribution"
+        },
+        {
+          "name": "Indianapolis Central FC",
+          "region": "Midwest",
+          "state": "IN",
+          "type": "fulfillment"
+        }
+      ],
+      "fulfillmentCenters": 55,
+      "regions": [
+        "Midwest",
+        "South",
+        "West",
+        "Northeast",
+        "Southeast"
+      ],
+      "facilityTypes": [
+        "Target Store",
+        "SuperTarget",
+        "Distribution Center",
+        "Sortation Center"
+      ],
+      "avgSquareFootage": 130000,
+      "keyMarkets": [
+        "Minneapolis",
+        "Los Angeles",
+        "Chicago",
+        "New York",
+        "Houston"
+      ]
+    },
+    "COST": {
+      "symbol": "COST",
+      "companyName": "Costco Wholesale Corporation",
+      "retailLocations": 870,
+      "distributionCenters": [
+        {
+          "name": "Seattle HQ Depot",
+          "region": "Northwest",
+          "state": "WA",
+          "type": "super"
+        },
+        {
+          "name": "Los Angeles Regional DC",
+          "region": "West",
+          "state": "CA",
+          "type": "regional"
+        },
+        {
+          "name": "Chicago Midwest DC",
+          "region": "Midwest",
+          "state": "IL",
+          "type": "distribution"
+        },
+        {
+          "name": "New Jersey East DC",
+          "region": "Northeast",
+          "state": "NJ",
+          "type": "distribution"
+        }
+      ],
+      "fulfillmentCenters": 25,
+      "regions": [
+        "Northwest",
+        "West",
+        "Midwest",
+        "Northeast",
+        "South"
+      ],
+      "facilityTypes": [
+        "Warehouse Club",
+        "Business Center",
+        "Distribution Depot"
+      ],
+      "avgSquareFootage": 146000,
+      "keyMarkets": [
+        "Seattle",
+        "Los Angeles",
+        "San Francisco",
+        "New York",
+        "Chicago"
+      ]
+    },
+    "HD": {
+      "symbol": "HD",
+      "companyName": "The Home Depot, Inc.",
+      "retailLocations": 2320,
+      "distributionCenters": [
+        {
+          "name": "Atlanta HQ RDC",
+          "region": "Southeast",
+          "state": "GA",
+          "type": "super"
+        },
+        {
+          "name": "Dallas Stocking DC",
+          "region": "South",
+          "state": "TX",
+          "type": "distribution"
+        },
+        {
+          "name": "Perris CA Bulk DC",
+          "region": "West",
+          "state": "CA",
+          "type": "regional"
+        },
+        {
+          "name": "Savannah Import DC",
+          "region": "Southeast",
+          "state": "GA",
+          "type": "distribution"
+        },
+        {
+          "name": "New Jersey Flow DC",
+          "region": "Northeast",
+          "state": "NJ",
+          "type": "fulfillment"
+        }
+      ],
+      "fulfillmentCenters": 90,
+      "regions": [
+        "Southeast",
+        "South",
+        "West",
+        "Northeast",
+        "Midwest"
+      ],
+      "facilityTypes": [
+        "Home Improvement Store",
+        "Pro Store",
+        "Distribution Center",
+        "Flatbed DC"
+      ],
+      "avgSquareFootage": 105000,
+      "keyMarkets": [
+        "Atlanta",
+        "Houston",
+        "Los Angeles",
+        "Phoenix",
+        "Miami"
+      ]
+    },
+    "LOW": {
+      "symbol": "LOW",
+      "companyName": "Lowe's Companies, Inc.",
+      "retailLocations": 1740,
+      "distributionCenters": [
+        {
+          "name": "Mooresville HQ DC",
+          "region": "Southeast",
+          "state": "NC",
+          "type": "super"
+        },
+        {
+          "name": "Mount Vernon TX DC",
+          "region": "South",
+          "state": "TX",
+          "type": "regional"
+        },
+        {
+          "name": "Pittston PA DC",
+          "region": "Northeast",
+          "state": "PA",
+          "type": "distribution"
+        },
+        {
+          "name": "Perris CA DC",
+          "region": "West",
+          "state": "CA",
+          "type": "distribution"
+        }
+      ],
+      "fulfillmentCenters": 75,
+      "regions": [
+        "Southeast",
+        "South",
+        "West",
+        "Northeast",
+        "Midwest"
+      ],
+      "facilityTypes": [
+        "Home Improvement Store",
+        "Pro Store",
+        "Bulk Distribution Center"
+      ],
+      "avgSquareFootage": 112000,
+      "keyMarkets": [
+        "Charlotte",
+        "Houston",
+        "Phoenix",
+        "Dallas",
+        "Atlanta"
+      ]
+    },
+    "MCD": {
+      "symbol": "MCD",
+      "companyName": "McDonald's Corporation",
+      "retailLocations": 14000,
+      "distributionCenters": [
+        {
+          "name": "Chicago HQ Supply Hub",
+          "region": "Midwest",
+          "state": "IL",
+          "type": "super"
+        },
+        {
+          "name": "Dallas Regional Supply",
+          "region": "South",
+          "state": "TX",
+          "type": "regional"
+        },
+        {
+          "name": "Atlanta Southeast Hub",
+          "region": "Southeast",
+          "state": "GA",
+          "type": "distribution"
+        },
+        {
+          "name": "Los Angeles West Hub",
+          "region": "West",
+          "state": "CA",
+          "type": "distribution"
+        }
+      ],
+      "regions": [
+        "Midwest",
+        "South",
+        "West",
+        "Northeast",
+        "Southeast"
+      ],
+      "facilityTypes": [
+        "Restaurant",
+        "Drive-Thru",
+        "Express",
+        "Distribution Hub"
+      ],
+      "avgSquareFootage": 4000,
+      "keyMarkets": [
+        "Chicago",
+        "Los Angeles",
+        "New York",
+        "Houston",
+        "Phoenix"
+      ]
+    },
+    "SBUX": {
+      "symbol": "SBUX",
+      "companyName": "Starbucks Corporation",
+      "retailLocations": 9500,
+      "distributionCenters": [
+        {
+          "name": "Seattle HQ Roastery",
+          "region": "Northwest",
+          "state": "WA",
+          "type": "super"
+        },
+        {
+          "name": "York PA Roasting Plant",
+          "region": "Northeast",
+          "state": "PA",
+          "type": "distribution"
+        },
+        {
+          "name": "Carson Valley Roasting",
+          "region": "West",
+          "state": "NV",
+          "type": "distribution"
+        },
+        {
+          "name": "Augusta GA Plant",
+          "region": "Southeast",
+          "state": "GA",
+          "type": "regional"
+        }
+      ],
+      "regions": [
+        "Northwest",
+        "West",
+        "Northeast",
+        "Southeast",
+        "Midwest"
+      ],
+      "facilityTypes": [
+        "Cafe",
+        "Drive-Thru",
+        "Reserve Roastery",
+        "Licensed Store"
+      ],
+      "avgSquareFootage": 1800,
+      "keyMarkets": [
+        "Seattle",
+        "Los Angeles",
+        "New York",
+        "Chicago",
+        "San Francisco"
+      ]
+    },
+    "UPS": {
+      "symbol": "UPS",
+      "companyName": "United Parcel Service, Inc.",
+      "retailLocations": 1800,
+      "distributionCenters": [
+        {
+          "name": "Louisville Worldport Hub",
+          "region": "Central",
+          "state": "KY",
+          "type": "super"
+        },
+        {
+          "name": "Chicago CACH Hub",
+          "region": "Midwest",
+          "state": "IL",
+          "type": "super"
+        },
+        {
+          "name": "Dallas Southwest Hub",
+          "region": "South",
+          "state": "TX",
+          "type": "regional"
+        },
+        {
+          "name": "Philadelphia Northeast Hub",
+          "region": "Northeast",
+          "state": "PA",
+          "type": "regional"
+        },
+        {
+          "name": "Ontario CA West Hub",
+          "region": "West",
+          "state": "CA",
+          "type": "distribution"
+        }
+      ],
+      "fulfillmentCenters": 150,
+      "regions": [
+        "Central",
+        "Midwest",
+        "South",
+        "Northeast",
+        "West"
+      ],
+      "facilityTypes": [
+        "Package Hub",
+        "Customer Center",
+        "Air Hub",
+        "Ground Hub"
+      ],
+      "avgSquareFootage": 350000,
+      "keyMarkets": [
+        "Louisville",
+        "Chicago",
+        "Dallas",
+        "Los Angeles",
+        "Atlanta"
+      ]
+    },
+    "FDX": {
+      "symbol": "FDX",
+      "companyName": "FedEx Corporation",
+      "retailLocations": 2200,
+      "distributionCenters": [
+        {
+          "name": "Memphis SuperHub",
+          "region": "Central",
+          "state": "TN",
+          "type": "super"
+        },
+        {
+          "name": "Indianapolis Ground Hub",
+          "region": "Midwest",
+          "state": "IN",
+          "type": "super"
+        },
+        {
+          "name": "Newark Airport Hub",
+          "region": "Northeast",
+          "state": "NJ",
+          "type": "regional"
+        },
+        {
+          "name": "Oakland Air Hub",
+          "region": "West",
+          "state": "CA",
+          "type": "regional"
+        },
+        {
+          "name": "Fort Worth Ground Hub",
+          "region": "South",
+          "state": "TX",
+          "type": "distribution"
+        }
+      ],
+      "fulfillmentCenters": 180,
+      "regions": [
+        "Central",
+        "Midwest",
+        "Northeast",
+        "West",
+        "South"
+      ],
+      "facilityTypes": [
+        "Express Hub",
+        "Ground Hub",
+        "Freight Center",
+        "Office"
+      ],
+      "avgSquareFootage": 420000,
+      "keyMarkets": [
+        "Memphis",
+        "Indianapolis",
+        "Dallas",
+        "Los Angeles",
+        "Miami"
+      ]
+    },
+    "DAL": {
+      "symbol": "DAL",
+      "companyName": "Delta Air Lines, Inc.",
+      "retailLocations": 320,
+      "distributionCenters": [
+        {
+          "name": "Atlanta Hartsfield Hub",
+          "region": "Southeast",
+          "state": "GA",
+          "type": "super"
+        },
+        {
+          "name": "Minneapolis Hub",
+          "region": "Midwest",
+          "state": "MN",
+          "type": "regional"
+        },
+        {
+          "name": "Detroit Hub",
+          "region": "Midwest",
+          "state": "MI",
+          "type": "regional"
+        },
+        {
+          "name": "Salt Lake City Hub",
+          "region": "West",
+          "state": "UT",
+          "type": "distribution"
+        },
+        {
+          "name": "New York JFK Hub",
+          "region": "Northeast",
+          "state": "NY",
+          "type": "distribution"
+        }
+      ],
+      "regions": [
+        "Southeast",
+        "Midwest",
+        "West",
+        "Northeast"
+      ],
+      "facilityTypes": [
+        "Major Hub",
+        "Focus City",
+        "Maintenance Base",
+        "Cargo Facility"
+      ],
+      "keyMarkets": [
+        "Atlanta",
+        "New York",
+        "Los Angeles",
+        "Seattle",
+        "Boston"
+      ]
+    },
+    "UAL": {
+      "symbol": "UAL",
+      "companyName": "United Airlines Holdings, Inc.",
+      "retailLocations": 380,
+      "distributionCenters": [
+        {
+          "name": "Chicago ORD Hub",
+          "region": "Midwest",
+          "state": "IL",
+          "type": "super"
+        },
+        {
+          "name": "Houston IAH Hub",
+          "region": "South",
+          "state": "TX",
+          "type": "super"
+        },
+        {
+          "name": "Denver Hub",
+          "region": "West",
+          "state": "CO",
+          "type": "regional"
+        },
+        {
+          "name": "Newark Hub",
+          "region": "Northeast",
+          "state": "NJ",
+          "type": "regional"
+        },
+        {
+          "name": "San Francisco Hub",
+          "region": "West",
+          "state": "CA",
+          "type": "distribution"
+        }
+      ],
+      "regions": [
+        "Midwest",
+        "South",
+        "West",
+        "Northeast"
+      ],
+      "facilityTypes": [
+        "Major Hub",
+        "Focus City",
+        "Maintenance Center",
+        "Cargo Hub"
+      ],
+      "keyMarkets": [
+        "Chicago",
+        "Houston",
+        "San Francisco",
+        "Los Angeles",
+        "Washington DC"
+      ]
+    },
+    "MAR": {
+      "symbol": "MAR",
+      "companyName": "Marriott International, Inc.",
+      "retailLocations": 8500,
+      "distributionCenters": [
+        {
+          "name": "Bethesda HQ Operations",
+          "region": "Northeast",
+          "state": "MD",
+          "type": "super"
+        },
+        {
+          "name": "Orlando Resort Complex",
+          "region": "Southeast",
+          "state": "FL",
+          "type": "regional"
+        },
+        {
+          "name": "Las Vegas Strip Properties",
+          "region": "West",
+          "state": "NV",
+          "type": "regional"
+        },
+        {
+          "name": "New York City Portfolio",
+          "region": "Northeast",
+          "state": "NY",
+          "type": "distribution"
+        }
+      ],
+      "regions": [
+        "Northeast",
+        "Southeast",
+        "West",
+        "Midwest",
+        "South"
+      ],
+      "facilityTypes": [
+        "Luxury Hotel",
+        "Resort",
+        "Convention Center",
+        "Select Service"
+      ],
+      "avgSquareFootage": 85000,
+      "keyMarkets": [
+        "New York",
+        "Las Vegas",
+        "Orlando",
+        "Los Angeles",
+        "Chicago"
+      ]
+    },
+    "HLT": {
+      "symbol": "HLT",
+      "companyName": "Hilton Worldwide Holdings Inc.",
+      "retailLocations": 7400,
+      "distributionCenters": [
+        {
+          "name": "McLean VA HQ",
+          "region": "Northeast",
+          "state": "VA",
+          "type": "super"
+        },
+        {
+          "name": "New York Flagship Properties",
+          "region": "Northeast",
+          "state": "NY",
+          "type": "regional"
+        },
+        {
+          "name": "Hawaii Resort Portfolio",
+          "region": "West",
+          "state": "HI",
+          "type": "regional"
+        },
+        {
+          "name": "Chicago Downtown Properties",
+          "region": "Midwest",
+          "state": "IL",
+          "type": "distribution"
+        }
+      ],
+      "regions": [
+        "Northeast",
+        "West",
+        "Midwest",
+        "Southeast",
+        "South"
+      ],
+      "facilityTypes": [
+        "Luxury Hotel",
+        "Full Service",
+        "Resort",
+        "Hampton Inn",
+        "Garden Inn"
+      ],
+      "avgSquareFootage": 78000,
+      "keyMarkets": [
+        "New York",
+        "Chicago",
+        "Los Angeles",
+        "Miami",
+        "Honolulu"
+      ]
+    },
+    "XOM": {
+      "symbol": "XOM",
+      "companyName": "Exxon Mobil Corporation",
+      "retailLocations": 420,
+      "distributionCenters": [
+        {
+          "name": "Houston HQ Complex",
+          "region": "South",
+          "state": "TX",
+          "type": "super"
+        },
+        {
+          "name": "Baytown TX Refinery",
+          "region": "South",
+          "state": "TX",
+          "type": "super"
+        },
+        {
+          "name": "Baton Rouge Refinery",
+          "region": "South",
+          "state": "LA",
+          "type": "regional"
+        },
+        {
+          "name": "Beaumont TX Refinery",
+          "region": "South",
+          "state": "TX",
+          "type": "distribution"
+        }
+      ],
+      "regions": [
+        "South",
+        "Gulf Coast",
+        "Midwest",
+        "West"
+      ],
+      "facilityTypes": [
+        "Refinery",
+        "Chemical Plant",
+        "Terminal",
+        "Gas Station"
+      ],
+      "avgSquareFootage": 2500000,
+      "keyMarkets": [
+        "Houston",
+        "Baton Rouge",
+        "Los Angeles",
+        "Chicago",
+        "New Jersey"
+      ]
+    },
+    "CVX": {
+      "symbol": "CVX",
+      "companyName": "Chevron Corporation",
+      "retailLocations": 380,
+      "distributionCenters": [
+        {
+          "name": "San Ramon CA HQ",
+          "region": "West",
+          "state": "CA",
+          "type": "super"
+        },
+        {
+          "name": "Richmond CA Refinery",
+          "region": "West",
+          "state": "CA",
+          "type": "super"
+        },
+        {
+          "name": "El Segundo CA Refinery",
+          "region": "West",
+          "state": "CA",
+          "type": "regional"
+        },
+        {
+          "name": "Pascagoula MS Refinery",
+          "region": "South",
+          "state": "MS",
+          "type": "distribution"
+        }
+      ],
+      "regions": [
+        "West",
+        "South",
+        "Gulf Coast",
+        "Midwest"
+      ],
+      "facilityTypes": [
+        "Refinery",
+        "Chemical Plant",
+        "Terminal",
+        "Gas Station"
+      ],
+      "avgSquareFootage": 2200000,
+      "keyMarkets": [
+        "San Francisco",
+        "Los Angeles",
+        "Houston",
+        "Salt Lake City",
+        "Seattle"
+      ]
+    },
+    "AMZN": {
+      "symbol": "AMZN",
+      "companyName": "Amazon.com, Inc.",
+      "retailLocations": 175,
+      "distributionCenters": [
+        {
+          "name": "Seattle HQ Campus",
+          "region": "Northwest",
+          "state": "WA",
+          "type": "super"
+        },
+        {
+          "name": "JFK8 Staten Island FC",
+          "region": "Northeast",
+          "state": "NY",
+          "type": "super"
+        },
+        {
+          "name": "ONT8 San Bernardino FC",
+          "region": "West",
+          "state": "CA",
+          "type": "super"
+        },
+        {
+          "name": "DFW7 Dallas FC",
+          "region": "South",
+          "state": "TX",
+          "type": "regional"
+        },
+        {
+          "name": "MDW2 Chicago FC",
+          "region": "Midwest",
+          "state": "IL",
+          "type": "regional"
+        }
+      ],
+      "fulfillmentCenters": 175,
+      "regions": [
+        "Northwest",
+        "Northeast",
+        "West",
+        "South",
+        "Midwest"
+      ],
+      "facilityTypes": [
+        "Fulfillment Center",
+        "Sortation Center",
+        "Delivery Station",
+        "Air Hub"
+      ],
+      "avgSquareFootage": 850000,
+      "keyMarkets": [
+        "Seattle",
+        "New York",
+        "Los Angeles",
+        "Chicago",
+        "Dallas"
+      ]
+    }
+  }
+}
