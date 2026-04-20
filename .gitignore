@@ -50,3 +50,13 @@ docker-data/
 # Cursor/agent artifacts
 agent-tools/
 agent-transcripts/
+
+# Celery beat schedule files (runtime state)
+celerybeat-schedule
+celerybeat-schedule-*
+
+# Archives / accidental dumps
+*.zip
+*.tar
+*.tar.gz
+*.tgz
