@@ -1,20 +1,58 @@
+# Python bytecode / caches
 __pycache__/
 *.pyc
 *.pyo
 *.pyd
 .pytest_cache/
 .ruff_cache/
-.git/
-.gitignore
+.mypy_cache/
+.coverage
+htmlcov/
+
+# Virtual envs
+.venv/
+venv/
+env/
+
+# OS junk
+.DS_Store
+__MACOSX/
+Thumbs.db
+
+# Local databases / runtime state
+torque.db
+*.sqlite3
+celerybeat-schedule
+celerybeat-schedule-shm
+celerybeat-schedule-wal
+
+# Secrets / env
 .env
 .env.*
-venv/
-.venv/
+!.env.example
+
+# VCS / CI / IDE / agent artifacts
+.git/
+.gitignore
+.github/
+.vscode/
+.idea/
+.specstory/
+agent-tools/
+agent-transcripts/
+
+# Build outputs and archives
 dist/
 build/
 *.egg-info/
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+
+# Tests are not needed at runtime
 tests/
-.specstory/
-.vscode/
-agent-tools/
-agent-transcripts/
+
+# Local compose / deploy files are not part of the image
+docker-compose.yml
+deploy/

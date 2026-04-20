@@ -1,0 +1,66 @@
+# ---------------------------------------------------------------------------
+# Torque backend - server deployment compose
+#
+# Pulls the image published by .github/workflows/docker-publish.yml and joins
+# shared infra networks that already exist on the host:
+#
+#   - edge   -> reachable by Cloudflare Tunnel / ingress
+#   - db     -> torque-postgres lives here
+#   - object -> torque-minio lives here
+#
+# torque-redis is assumed to live on either `db` or a dedicated network; adjust
+# REDIS_URL accordingly. Watchtower on the host watches containers that carry
+# the `com.centurylinklabs.watchtower.enable=true` label and will auto-update
+# them when the `:prod` tag is refreshed in GHCR.
+# ---------------------------------------------------------------------------
+
+services:
+  api:
+    image: ghcr.io/shahzad-skoop/torque-backend:prod
+    container_name: torque-backend-api
+    restart: unless-stopped
+    env_file:
+      - .env
+    command: bash -lc "alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port 8000"
+    ports:
+      # Bound to loopback only; Cloudflare Tunnel (on the host) fronts this.
+      - "127.0.0.1:18080:8000"
+    networks:
+      - edge
+      - db
+      - object
+    labels:
+      com.centurylinklabs.watchtower.enable: "true"
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://127.0.0.1:8000/api/v1/health >/dev/null || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  worker:
+    image: ghcr.io/shahzad-skoop/torque-backend:prod
+    container_name: torque-backend-worker
+    restart: unless-stopped
+    env_file:
+      - .env
+    command: celery -A app.celery_app.celery_app worker --loglevel=INFO
+    networks:
+      - db
+      - object
+    labels:
+      com.centurylinklabs.watchtower.enable: "true"
+    healthcheck:
+      test: ["CMD-SHELL", "celery -A app.celery_app.celery_app inspect ping -d celery@$$HOSTNAME >/dev/null 2>&1 || exit 1"]
+      interval: 60s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+networks:
+  edge:
+    external: true
+  db:
+    external: true
+  object:
+    external: true

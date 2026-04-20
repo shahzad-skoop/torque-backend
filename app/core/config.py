@@ -22,6 +22,11 @@ class Settings(BaseSettings):
     celery_result_backend: str = "redis://localhost:6379/2"
 
     minio_endpoint: str = "localhost:9000"
+    # App-scoped MinIO credentials. Prefer these over root credentials in
+    # production; root credentials are kept only so the local docker-compose
+    # "mc alias" helper can bootstrap buckets against a dev MinIO.
+    minio_access_key: str = ""
+    minio_secret_key: str = ""
     minio_root_user: str = "minioadmin"
     minio_root_password: str = "minioadmin"
     minio_bucket: str = "torque-artifacts"
@@ -42,6 +47,11 @@ class Settings(BaseSettings):
     simulate_analysis_delay_seconds: int = 1
 
     celery_task_always_eager: bool = False
+
+    # Session cookie security. Defaults are production-safe (HTTPS only).
+    # Override to False for plain-HTTP local development.
+    session_cookie_secure: bool = True
+    session_cookie_samesite: str = "lax"
 
     model_config = SettingsConfigDict(
         env_file=".env",
